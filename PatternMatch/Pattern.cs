@@ -56,6 +56,11 @@ namespace PatternMatch
             {
                 _inner.Default(() => { action(); return Nothing.Instance; });
             }
+
+            public void ElseThrow(string message = null)
+            {
+                _inner.ElseThrow(message);
+            }
         }
 
         public struct PatternMatch<T, R>
@@ -120,6 +125,13 @@ namespace PatternMatch
             public R Default(Func<R> action)
             {
                 return !_matched ? action() : _result;
+            }
+
+            public R ElseThrow(string message = null)
+            {
+                if(!_matched) throw new ArgumentException(string.IsNullOrEmpty(message) ? $"Match for [{_value}] not found." : message);
+
+                return _result;
             }
         }
 
