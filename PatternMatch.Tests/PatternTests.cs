@@ -14,7 +14,7 @@ namespace PatternMatch.Tests
                 .When(x => x > 100, () => "> 100")
                 .When(x => x > 50, () => "> 50")
                 .When(x => x > 10, () => "> 10")
-                .Default(() => "");
+                .Otherwise.Default(() => "");
 
             Assert.AreEqual(result, expected);
         }
@@ -25,7 +25,7 @@ namespace PatternMatch.Tests
             var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
                 .When<IFoo>(foo => foo.A)
                 .When<IBoo>(boo => boo.B)
-                .Default(() => 0);
+                .Otherwise.Default(() => 0);
 
             Assert.AreEqual(5, result);
         }

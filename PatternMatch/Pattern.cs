@@ -52,15 +52,7 @@ namespace PatternMatch
                 return this;
             }
 
-            public void Default(Action action)
-            {
-                _inner.Default(() => { action(); return Nothing.Instance; });
-            }
-
-            public void ElseThrow(string message = null)
-            {
-                _inner.ElseThrow(message);
-            }
+            public OtherwiseMatch<T, Nothing> Otherwise => new OtherwiseMatch<T, Nothing>(_inner);
         }
 
         public struct PatternMatch<T, R>
@@ -68,21 +60,20 @@ namespace PatternMatch
             private readonly T _value;
             private R _result;
 
-            private bool _matched;
 
             public PatternMatch(T value)
             {
                 _value = value;
-                _matched = false;
+                IsMatched = false;
                 _result = default(R);
             }
 
             public PatternMatch<T, R> When(Func<T, bool> condition, Func<R> action)
             {
-                if (!_matched && condition(_value))
+                if (!IsMatched && condition(_value))
                 {
                     _result = action();
-                    _matched = true;
+                    IsMatched = true;
                 }
 
                 return this;
@@ -90,20 +81,20 @@ namespace PatternMatch
 
             public PatternMatch<T, R> When<C>(Func<C, R> action)
             {
-                if (!_matched && _value is C)
+                if (!IsMatched && _value is C)
                 {
                     _result = action((C)(object)_value);
-                    _matched = true;
+                    IsMatched = true;
                 }
                 return this;
             }
 
             public PatternMatch<T, R> When<C>(Func<C, bool> condition, Func<C, R> action)
             {
-                if (!_matched && _value is C && condition((C)(object)_value))
+                if (!IsMatched && _value is C && condition((C)(object)_value))
                 {
                     _result = action((C)(object)_value);
-                    _matched = true;
+                    IsMatched = true;
                 }
                 return this;
             }
@@ -111,10 +102,10 @@ namespace PatternMatch
 
             public PatternMatch<T, R> When<C>(C value, Func<R> action)
             {
-                if (!_matched && value.Equals(_value))
+                if (!IsMatched && value.Equals(_value))
                 {
                     _result = action();
-                    _matched = true;
+                    IsMatched = true;
                 }
                 return this;
             }
@@ -122,31 +113,32 @@ namespace PatternMatch
 
             public R Result => _result;
 
-            public R Default(Func<R> action)
-            {
-                return !_matched ? action() : _result;
-            }
+            internal bool IsMatched { get; private set; }
 
-            public R ElseThrow(string message = null)
-            {
-                if(!_matched) throw new ArgumentException(string.IsNullOrEmpty(message) ? $"Match for [{_value}] not found." : message);
-
-                return _result;
-            }
+            internal T Value => _value;
+            
+            public OtherwiseMatch<T,R> Otherwise => new OtherwiseMatch<T,R>(this);
         }
 
-        /// <summary>
-        /// This class can be used instead of void for return types.
-        /// </summary>
-        private class Nothing
+        public struct OtherwiseMatch<T, R>
         {
-            public static readonly Nothing Instance = new Nothing();
+            private readonly PatternMatch<T, R> _patternMatch;
 
-            private Nothing() { }
-
-            public override string ToString()
+            public OtherwiseMatch(PatternMatch<T,R> patternMatch)
             {
-                return "Nothing";
+                _patternMatch = patternMatch;
+            }
+
+            public R Default(Func<R> action)
+            {
+                return !_patternMatch.IsMatched ? action() : _patternMatch.Result;
+            }
+
+            public R Throw(string message = null)
+            {
+                if(!_patternMatch.IsMatched) throw new ArgumentException(string.IsNullOrEmpty(message) ? $"Match for [{_patternMatch.Value}] not found." : message);
+
+                return _patternMatch.Result;
             }
         }
     }
