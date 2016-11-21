@@ -1,13 +1,13 @@
 ﻿{
   "version": "1.0.0",
   "authors": [ "Hrvoje Hudo" ],
-  "description": "Poors man's Pattern Matching",
+  "description": "Poor man's and Just Another Pattern Matching simple helper class",
   "title": "Just Another Pattern Matching",
   "packOptions": {
     "tags": [ "pattern", "match", "pattern matching", "pattern match" ],
     "projectUrl": "https://github.com/hudo/PatternMatch",
     "owners": [ "Hrvoje Hudo" ],
-    "summary": "Poor's man Pattern Matching",
+    "summary": "Poor man's and Just Another Pattern Matching",
     "releaseNotes": "Net Standard targeting"
   },
   "dependencies": {

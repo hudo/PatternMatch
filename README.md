@@ -1,11 +1,12 @@
-## Pattern matching helper class for c#  
+## Just another Pattern matching helper class for c#  
 
-Poor mans pattern matching for usage in c# until it gets native support. Requires .NET 4.6 or Core. 
+Until we get proper native pattern matching with C# 7, I present you *Poor Mans Pattern Matching* for usage in .NET 4.6.1 or NETStandard (Core) projects! 
 
 #### Examples  
 
 ```csharp
 
+// match condition:
 string result = Pattern.Match<int, string>(70)  
     .When(x => x > 100, () => "> 100")  
     .When(x => x > 50, () => "> 50")  
@@ -14,7 +15,7 @@ string result = Pattern.Match<int, string>(70)
 
 Assert.Equal(result, "> 50");
 
-
+// match generic type:
 var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
     .When<IFoo>(foo => foo.A)
     .When<IBoo>(boo => boo.B)
@@ -23,6 +24,7 @@ var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
 Assert.Equal(5, result);
 
 
+// match any type:
 var value = 5;
 var result = Pattern.Match<object, string>(value)
     .When(5, () => value.ToString())
@@ -32,4 +34,9 @@ var result = Pattern.Match<object, string>(value)
 
 Assert.Equal("5", result);
 
+
 ```
+
+#### Nuget
+
+https://www.nuget.org/packages/JA.PatternMatch 
