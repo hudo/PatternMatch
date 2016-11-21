@@ -1,0 +1,23 @@
+﻿{
+  "version": "1.0.0",
+  "authors": [ "Hrvoje Hudo" ],
+  "description": "Poors man's Pattern Matching",
+  "title": "Just Another Pattern Matching",
+  "packOptions": {
+    "tags": [ "pattern", "match", "pattern matching", "pattern match" ],
+    "projectUrl": "https://github.com/hudo/PatternMatch",
+    "owners": [ "Hrvoje Hudo" ],
+    "summary": "Poor's man Pattern Matching",
+    "releaseNotes": "Net Standard targeting"
+  },
+  "dependencies": {
+    "NETStandard.Library": "1.1.0"
+  },
+
+  "frameworks": {
+    "netstandard1.1": {
+      "imports": "dnxcore50"
+    },
+    "net461": {}
+  }
+}

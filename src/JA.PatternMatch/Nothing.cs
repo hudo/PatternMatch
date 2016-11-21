@@ -1,4 +1,4 @@
-﻿namespace PatternMatch
+﻿namespace JA.PatternMatch
 {
     /// <summary>
     /// This class can be used instead of void for return types.

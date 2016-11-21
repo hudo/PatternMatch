@@ -12,7 +12,7 @@ string result = Pattern.Match<int, string>(70)
     .When(x => x > 10, () => "> 10")  
     .Default(() => "");
 
-Assert.AreEqual(result, "> 50");
+Assert.Equal(result, "> 50");
 
 
 var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
@@ -20,7 +20,7 @@ var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
     .When<IBoo>(boo => boo.B)
     .Default(() => 0);
 
-Assert.AreEqual(5, result);
+Assert.Equal(5, result);
 
 
 var value = 5;
@@ -30,6 +30,6 @@ var result = Pattern.Match<object, string>(value)
     .When(new Foo(), () => "foo")
     .Result;
 
-Assert.AreEqual("5", result);
+Assert.Equal("5", result);
 
 ```

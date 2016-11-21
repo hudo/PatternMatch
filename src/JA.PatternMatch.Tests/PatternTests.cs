@@ -1,13 +1,15 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using Xunit;
 
-namespace PatternMatch.Tests
+namespace JA.PatternMatch.Tests
 {
     public class PatternTests
     {
-        [TestCase(150, "> 100")]
-        [TestCase(70, "> 50")]
-        [TestCase(20, "> 10")]
-        [TestCase(2, "")]
+        [Theory]
+        [InlineData(150, "> 100")]
+        [InlineData(70, "> 50")]
+        [InlineData(20, "> 10")]
+        [InlineData(2, "")]
         public void Condition_with_action(int n, string expected)
         {
             var result = Pattern.Match<int, string>(n)
@@ -16,10 +18,10 @@ namespace PatternMatch.Tests
                 .When(x => x > 10, () => "> 10")
                 .Otherwise.Default(() => "");
 
-            Assert.AreEqual(result, expected);
+            Assert.Equal(result, expected);
         }
 
-        [Test]
+        [Fact]
         public void Match_type()
         {
             var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
@@ -27,10 +29,10 @@ namespace PatternMatch.Tests
                 .When<IBoo>(boo => boo.B)
                 .Otherwise.Default(() => 0);
 
-            Assert.AreEqual(5, result);
+            Assert.Equal(5, result);
         }
 
-        [Test]
+        [Fact]
         public void Instance_value()
         {
             var value = 5;
@@ -40,7 +42,7 @@ namespace PatternMatch.Tests
                 .When(new Foo(), () => "foo")
                 .Result;
 
-            Assert.AreEqual("5", result);
+            Assert.Equal("5", result);
         }
 
         interface IFoo : IBase { int A { get; } }
