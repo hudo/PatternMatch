@@ -4,5 +4,14 @@
     <ArrayOfString>
       <string>D:\Projects\PatternMatch\src\JA.PatternMatch\project.json</string>
     </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\Projects\PatternMatch\src\JA.PatternMatch\Pattern.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\Projects\PatternMatch\src\JA.PatternMatch.Tests\PatternTests.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>D:\Projects\PatternMatch\README.md</string>
+    </ArrayOfString>
   </ArrayOfArrayOfString>
 </ArrayOfArrayOfArrayOfString>

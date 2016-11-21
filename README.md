@@ -11,7 +11,7 @@ string result = Pattern.Match<int, string>(70)
     .When(x => x > 100, () => "> 100")  
     .When(x => x > 50, () => "> 50")  
     .When(x => x > 10, () => "> 10")  
-    .Default(() => "");
+    .Otherwise.Default(() => "");
 
 Assert.Equal(result, "> 50");
 
@@ -19,7 +19,7 @@ Assert.Equal(result, "> 50");
 var result = Pattern.Match<IBase, int>(new Foo() {A = 5})
     .When<IFoo>(foo => foo.A)
     .When<IBoo>(boo => boo.B)
-    .Default(() => 0);
+    .Otherwise.Throw("Foo is not of type IFoo nor IBoo, buhuhu:(");
 
 Assert.Equal(5, result);
 
